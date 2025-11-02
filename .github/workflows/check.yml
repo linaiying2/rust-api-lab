@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+
+env:
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/rust_api_lab
 
 jobs:
   check:
@@ -12,10 +16,11 @@ jobs:
     services:
       postgres:
         image: postgres:15
-        env:
-          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: rust_api_lab
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -29,22 +34,16 @@ jobs:
         with:
           components: clippy, rustfmt
 
-      - uses: Swatinem/rust-cache@v2   # 可选，加速缓存
+      - uses: Swatinem/rust-cache@v2   # 缓存 cargo/registry & target
 
       - name: Install sqlx-cli
         run: cargo install sqlx-cli --no-default-features --features postgres
 
       - name: Migrate database
         run: sqlx migrate run
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
 
       - name: Cargo check
         run: cargo check
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
 
       - name: Clippy
         run: cargo clippy -- -D warnings
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
