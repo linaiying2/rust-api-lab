@@ -1,0 +1,1 @@
+sqlx::query::Map<'_, Postgres, {closure@C:\Users\AiyingLin\.cargo\registry\src\mirrors.ustc.edu.cn-5857e57f01837ef8\sqlx-0.7.4\src\macros\mod.rs:576:9: 576:102}, PgArguments>

@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/rust_api_lab
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: rust_api_lab
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - run: cargo install sqlx-cli --no-default-features --features postgres
+      - run: cp .env.example .env
+      - run: sqlx migrate run
+      - run: cargo check
+      - run: cargo clippy -- -D warnings
