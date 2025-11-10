@@ -1,3 +1,12 @@
+<<<<<<< HEAD
 [workspace] 
 members = ["crates/*"] 
 resolver = "2" 
+=======
+[workspace]
+members = [
+    "crates/db",
+    "crates/api",
+]
+resolver = "2" 
+>>>>>>> d624ae11aed19a06cc2a02386e38faa5ea737fef
