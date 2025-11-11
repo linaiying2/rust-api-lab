@@ -1,1 +1,8 @@
-target/ 
+﻿target/
+*.pdb
+*.rlib
+Cargo.lock
+.vscode/
+.idea/
+.env
+.env.local
