@@ -1,0 +1,14 @@
+[package] 
+name = "models" 
+version = "0.1.0" 
+edition = "2021" 
+
+[dependencies] 
+serde = { version = "1.0", features = ["derive"] } 
+chrono = { version = "0.4", features = ["serde"] } 
+
+# 声明这是一个库（关键）
+[lib]
+name = "models"  # 库名称
+path = "src/lib.rs"  # 库的入口文件路径
+
